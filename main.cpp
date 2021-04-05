@@ -5,17 +5,21 @@
 #include"graphenonorientevalue.h"
 #include"grapheoriente.h"
 #include"graphenonoriente.h"
+#include<fstream>
+#include<istream>
 using namespace std;
+
 int main(int argc, char *argv[])
 {
-    /*QApplication a(argc, argv);
+    cout<<"This is qt"<<endl;
+    QApplication a(argc, argv);
+    cout<<"This is qtjhvk"<<endl;
     Widget w;
+    cout<<"This is qjhsbshboshbct"<<endl;
     w.show();
 
-    return a.exec();*/
+    return a.exec();
 
-    //cout<<"This is qt"<<endl;
-    GrapheNonOrienteValue g;
-    g.affiche();
-    return 0;
+
+
 }
