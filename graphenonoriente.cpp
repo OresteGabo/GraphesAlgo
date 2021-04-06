@@ -31,9 +31,7 @@ bool GrapheNonOriente::connectionExiste(Sommet* src,Sommet*dest)const{
 /*bool GrapheNonOriente::ajoutSommetPossible(int)const{
     return true;
 }*/
-void GrapheNonOriente::affiche()const{
-    cout<<"void affiche()const de GrapheNonOriente executed correctly"<<endl;
-}
+
 void GrapheNonOriente::displayData()const {
 
 }
@@ -77,4 +75,7 @@ void GrapheNonOriente::readFile(const string& fileName){
         cout<<x<<": "<<nb<<"   ";
     }
     cout<<endl<<"end of loop aps, and end of function "<<endl;
+}
+void GrapheNonOriente::affiche(QTextEdit*debugger)const {
+    debugger->append("GrapheNonOriente affiche statrt");
 }

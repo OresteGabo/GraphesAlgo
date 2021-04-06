@@ -9,7 +9,7 @@ public:
     GrapheOriente();
     virtual~GrapheOriente();
     virtual bool connectionExiste(Sommet*,Sommet*)const override;
-    virtual void affiche()const override;
+    virtual void affiche(QTextEdit*)const override;
     virtual void displayData()const override;
     virtual void createFile(const string&)const override;
     virtual void readFile(const string&) override;

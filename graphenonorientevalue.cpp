@@ -7,9 +7,7 @@ GrapheNonOrienteValue::GrapheNonOrienteValue(){
 }
 GrapheNonOrienteValue::~GrapheNonOrienteValue(){}
 bool GrapheNonOrienteValue::connectionExiste(Sommet*,Sommet*)const{return true;}
-void GrapheNonOrienteValue::affiche() const{
-    cout<<"GrapheNonOrienteValue::affiche() executed correctly"<<endl;
-}
+
 void GrapheNonOrienteValue::displayData()const {
 
 }
@@ -53,4 +51,7 @@ void GrapheNonOrienteValue::readFile(const string& fileName){
         cout<<x<<": "<<nb<<"   ";
     }
     cout<<endl<<"end of loop aps, and end of function "<<endl;
+}
+void GrapheNonOrienteValue::affiche(QTextEdit* debugger)const {
+    debugger->append("GrapheNonOrienteValue affiche statrt");
 }

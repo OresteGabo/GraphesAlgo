@@ -34,8 +34,24 @@ public:
 private:
     vector<string>d_fichiers;
     Graphe* d_graphe;
-    QPushButton* d_djkstra,*d_rang,*d_prufer,*d_kruskal,*d_tarjan,*d_exit;
+    QPushButton* d_djkstra,*d_rang,*d_prufer,*d_kruskal,*d_tarjan,*d_exit,*d_addSommet,*d_addConnection,*d_removeConnection,*d_removeSommet,*d_go;
     QComboBox *d_liste;
     QTextEdit* d_debugger;
+
+private slots:
+    void onListe();
+    void onDjkstra();
+    void onRang();
+    void onPrufer();
+    void onKruskal();
+    void onTarjan();
+    void onExit();
+    void onAddSommet();
+    void onAddConnection();
+    void onRemoveConnection();
+    void onRemoveSommet();
+    void onGO();
+
+
 };
 #endif // WIDGET_H

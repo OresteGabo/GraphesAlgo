@@ -12,9 +12,7 @@ bool GrapheOrienteValue::connectionExiste(Sommet*,Sommet*)const{
     return true;
 }
 
-void GrapheOrienteValue::affiche()const{
-    cout<<"The object is well created";
-}
+
 void GrapheOrienteValue::displayData()const {
 
 }
@@ -24,7 +22,7 @@ void GrapheOrienteValue::createFile(const string& fileName)const{
     int size=10;
     file<<size<<endl<<"   197 2 3 4 5 6 7 8 9 10 "<<endl;
     int size2=10;
-    file<<size<<endl<<"   10 20 30 40 50 60 70 80 90 100 "<<endl;
+    file<<size2<<endl<<"   10 20 30 40 50 60 70 80 90 100 "<<endl;
     cout<<"\t\t>>createFile function called closed "<<endl;
 }
 /*Sommet* Graphe::getSommetByID(int)const{
@@ -57,4 +55,7 @@ void GrapheOrienteValue::readFile(const string& fileName){
         cout<<x<<": "<<nb<<"   ";
     }
     cout<<endl<<"end of loop aps, and end of function "<<endl;
+}
+void GrapheOrienteValue::affiche(QTextEdit* debugger)const {
+    debugger->append("GrapheOrienteValue affiche statrt");
 }

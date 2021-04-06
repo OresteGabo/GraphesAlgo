@@ -16,8 +16,14 @@ Widget::Widget(QWidget *parent)
     d_prufer=new QPushButton("Prufer");
     d_kruskal=new QPushButton("Kruskal");
     d_tarjan=new QPushButton("Tarjan");
+    d_addSommet=new QPushButton("Add sommet");
+    d_addConnection=new QPushButton("Add connection");
+    d_removeConnection=new QPushButton("remove Connection");
+    d_removeSommet=new QPushButton("remove Sommet");
+    d_go=new QPushButton("GO");
     d_liste=new QComboBox;
     d_debugger=new QTextEdit;
+    d_debugger->setTextColor(QColor(0,0,100));
     chargerFichiers();
     //int size=d_liste->size();
 
@@ -39,12 +45,17 @@ Widget::Widget(QWidget *parent)
 
 
     h1->addWidget(d_liste,5);
-    h1->addWidget(new QPushButton("GO"),1,Qt::AlignRight);
+    h1->addWidget(d_go,1,Qt::AlignRight);
     buttons->addWidget(d_djkstra);
     buttons->addWidget(d_rang);
     buttons->addWidget(d_prufer);
     buttons->addWidget(d_kruskal);
     buttons->addWidget(d_tarjan);
+    buttons->addWidget(d_addSommet);
+    buttons->addWidget(d_addConnection);
+    buttons->addWidget(d_removeConnection);
+    buttons->addWidget(d_removeSommet);
+
     h2->addLayout(buttons);
 
     area->addWidget(d_debugger);
@@ -59,8 +70,26 @@ Widget::Widget(QWidget *parent)
 
 
 
+    d_debugger->setEnabled(false);
+    //d_debugger->setTextBackgroundColor(QColor(255,255,0));
 
     //menuPrincipale();
+    connect(d_djkstra,&QPushButton::clicked,this,&Widget::onDjkstra);
+    connect(d_rang,&QPushButton::clicked,this,&Widget::onRang);
+    connect(d_prufer,&QPushButton::clicked,this,&Widget::onPrufer);
+    connect(d_kruskal,&QPushButton::clicked,this,&Widget::onKruskal);
+    connect(d_tarjan,&QPushButton::clicked,this,&Widget::onTarjan);
+    connect(d_addSommet,&QPushButton::clicked,this,&Widget::onAddSommet);
+    connect(d_addConnection,&QPushButton::clicked,this,&Widget::onAddConnection);
+    connect(d_removeSommet,&QPushButton::clicked,this,&Widget::onRemoveSommet);
+    connect(d_removeConnection,&QPushButton::clicked,this,&Widget::onRemoveConnection);
+    connect(d_exit,&QPushButton::clicked,this,&Widget::onExit);
+    connect(d_go,&QPushButton::clicked,this,&Widget::onGO);
+
+
+    //connect(d_liste,SIGNAL(currentTextChanged(const QString &)), this, SLOT(onListe(const QString &)));
+
+    connect(d_liste,&QComboBox::currentIndexChanged,this,&Widget::onListe);
 
 }
 void Widget::chargerFichiers(){
@@ -112,4 +141,42 @@ Graphe* Widget::creerGraphe(const string& fileName){
     return nullptr;
 }
 
+void Widget::onListe(){
+    d_debugger->append("    >>Liste selected");
+
+}
+void Widget::onDjkstra(){
+    d_debugger->append("    >>Djkstra clicked");
+}
+void Widget::onRang(){
+    d_debugger->append("    >>Rang clicked");
+}
+void Widget::onPrufer(){
+    d_debugger->append("    >>prufer clicked");
+}
+void Widget::onKruskal(){
+    d_debugger->append("    >>kruskal clicked");
+}
+void Widget::onTarjan(){
+    d_debugger->append("    >>Trajan clicked");
+}
+void Widget::onExit(){
+    d_debugger->append("    >>Exit clicked");
+    close();
+}
+void Widget::onAddSommet(){
+    d_debugger->append("    >>Sommet clicked");
+}
+void Widget::onAddConnection(){
+    d_debugger->append("    >>Add connection clicked");
+}
+void Widget::onRemoveConnection(){
+    d_debugger->append("    >>Remove connection clicked");
+}
+void Widget::onRemoveSommet(){
+    d_debugger->append("    >>Remove sommet clicked");
+}
+void Widget::onGO(){
+    d_debugger->append("    >>Go clicked");
+}
 

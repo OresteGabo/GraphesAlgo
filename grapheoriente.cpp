@@ -25,10 +25,7 @@ bool GrapheOriente::connectionExiste(Sommet* src,Sommet* dest)const{
     return false;
 }
 
-void GrapheOriente::affiche()const{
-    cout<<"void affiche()const de GrapheOriente executed correctly"<<endl;
 
-}
 void GrapheOriente::displayData()const {
 
 }
@@ -72,4 +69,7 @@ void GrapheOriente::readFile(const string&fileName) {
         cout<<x<<": "<<nb<<"   ";
     }
     cout<<endl<<"end of loop aps, and end of function "<<endl;
+}
+void GrapheOriente::affiche(QTextEdit* debugger)const {
+    debugger->append("GrapheOriente affiche statrt");
 }
