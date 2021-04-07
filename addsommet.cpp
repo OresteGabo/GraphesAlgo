@@ -1,6 +1,7 @@
 #include "addsommet.h"
 
-AddSommet::AddSommet()
+AddSommet::AddSommet(QWidget* parent):
+    QDialog{parent}
 {
 
 }

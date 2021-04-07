@@ -59,3 +59,6 @@ void GrapheOrienteValue::readFile(const string& fileName){
 void GrapheOrienteValue::affiche(QTextEdit* debugger)const {
     debugger->append("GrapheOrienteValue affiche statrt");
 }
+void GrapheOrienteValue::djkstra(QTextEdit*){
+
+}

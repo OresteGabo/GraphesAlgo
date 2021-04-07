@@ -13,6 +13,7 @@ public:
     virtual void displayData()const override;
     virtual void createFile(const string&)const override;
     virtual void readFile(const string&) override;
+    void djkstra(QTextEdit* debugger);
 protected:
     vector<int>d_aps;
     vector<Sommet*>d_fs;

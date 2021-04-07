@@ -13,6 +13,7 @@ public:
     virtual void displayData()const override;
     virtual void createFile(const string&)const override;
     virtual void readFile(const string&)override;
+    virtual void djkstra(QTextEdit*);
 };
 
 #endif // GRAPHEORIENTEVALUE_H
