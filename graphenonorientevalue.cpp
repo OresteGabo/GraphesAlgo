@@ -2,15 +2,11 @@
 
 GrapheNonOrienteValue::GrapheNonOrienteValue(){
     string fichier="oreste.txt";
-    createFile(fichier);
-    readFile(fichier);
+    /*createFile(fichier);
+    readFile(fichier);*/
 }
 GrapheNonOrienteValue::~GrapheNonOrienteValue(){}
-bool GrapheNonOrienteValue::connectionExiste(Sommet*,Sommet*)const{return true;}
-
-void GrapheNonOrienteValue::displayData()const {
-
-}
+/*
 void GrapheNonOrienteValue::createFile(const string& fileName)const{
     cout<<"\t\t>>createFile(const string& fileName)const function called"<<endl;
     ofstream file(fileName);
@@ -21,9 +17,7 @@ void GrapheNonOrienteValue::createFile(const string& fileName)const{
     file<<size<<endl<<"   10 20 30 40 50 60 70 80 90 100 "<<endl;
     cout<<"\t\t>>createFile function called closed "<<endl;
 }
-/*Sommet* Graphe::getSommetByID(int)const{
-    return nullptr;
-}*/
+*/
 void GrapheNonOrienteValue::readFile(const string& fileName){
     cout<<"\t\t>>readFile(const string& fileName)const function called"<<endl;
     ifstream file(fileName);
@@ -52,6 +46,7 @@ void GrapheNonOrienteValue::readFile(const string& fileName){
     }
     cout<<endl<<"end of loop aps, and end of function "<<endl;
 }
+
 void GrapheNonOrienteValue::affiche(QTextEdit* debugger)const {
     debugger->append("GrapheNonOrienteValue affiche statrt");
 }

@@ -8,15 +8,32 @@ class GrapheOriente:public Graphe
 public:
     GrapheOriente();
     virtual~GrapheOriente();
-    virtual bool connectionExiste(Sommet*,Sommet*)const override;
     virtual void affiche(QTextEdit*)const override;
-    virtual void displayData()const override;
-    virtual void createFile(const string&)const override;
-    virtual void readFile(const string&) override;
-    void djkstra(QTextEdit* debugger);
+    void djkstra(QTextEdit*);
+    void tarjan(QTextEdit*);
+    virtual void readFile(const string&fileName)override;
+
+    void empiler(vector<int> pile,int valeur);
+    int depiler(vector<int> pile);
 protected:
-    vector<int>d_aps;
-    vector<Sommet*>d_fs;
+
+
+
+    //pour calculer les composantes foretements connexes
+    vector<int>d_pile;
+    vector<int>d_pilch;
+    vector<int>d_prem;
+    vector<bool>d_EstDansLaPile;
+    vector<int>d_ro;
+    vector<int>d_num;
+    vector<int>d_cfc;
+
+    vector<bool>d_visited;
+    vector<int>d_dfsnum,low;
+
+private:
+    void tarjan(int sommet);
+
 };
 
 #endif // GRAPHEORIENTE_H

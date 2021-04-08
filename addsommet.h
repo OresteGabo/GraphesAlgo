@@ -3,7 +3,6 @@
 #include <QComboBox>
 #include<QDialog>
 #include <QLineEdit>
-
 class AddSommet:public QDialog{
 public:
     AddSommet(QWidget* parent=nullptr);

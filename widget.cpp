@@ -207,6 +207,7 @@ void Widget::MAJBoutons(){
         d_addSommet->setEnabled(true);
         d_removeConnection->setEnabled(true);
         d_removeSommet->setEnabled(true);
+        //matrice d'adjecence
         return;
 
     }else if(code=="CODE01"){
@@ -217,6 +218,7 @@ void Widget::MAJBoutons(){
         d_addSommet->setEnabled(true);
         d_removeConnection->setEnabled(true);
         d_removeSommet->setEnabled(true);
+        //matrice d'adjecence
         return;
 
     }else if(code=="CODE10"){
@@ -239,7 +241,7 @@ void Widget::MAJBoutons(){
         d_addSommet->setEnabled(true);
         d_removeConnection->setEnabled(true);
         d_removeSommet->setEnabled(true);
-        //distance
+        d_tarjan->setEnabled(true);
         //matrice d'adjecence
         return;
     }
@@ -248,26 +250,6 @@ void Widget::MAJBoutons(){
 void Widget::MAJFichier( ){
     d_fichier=d_liste->currentText().toStdString();
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 void Widget::onListe(){
     d_debugger->append("    >>Liste selected");
@@ -290,6 +272,7 @@ void Widget::onKruskal(){
 }
 void Widget::onTarjan(){
     d_debugger->append("    >>Trajan clicked");
+    ((GrapheOriente*)d_graphe)->tarjan(d_debugger);
 }
 void Widget::onExit(){
     d_debugger->append("    >>Exit clicked");

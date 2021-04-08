@@ -2,39 +2,15 @@
 
 GrapheNonOriente::GrapheNonOriente()
 {
-    string fichier="oreste.txt";
+    /*string fichier="oreste.txt";
     createFile(fichier);
-    readFile(fichier);
+    readFile(fichier);*/
 }
 GrapheNonOriente::~GrapheNonOriente(){
 
 }
-void GrapheNonOriente::ajouterConnection(){
-    //ici on ajoute uniquement les connections non value!!
-}
-bool GrapheNonOriente::connectionExiste(Sommet* src,Sommet*dest)const{
-    /*int n=d_aps[0];
-    for(int i=1;i<=n;i++){
-        int k=d_aps[i];
-        while(d_fs[k]!=nullptr){
-            if(
-                    (dest->getValeur()==d_fs[k]->getValeur() && src->getValeur()==d_fs[i]->getValeur())||
-                    (src->getValeur()==d_fs[k]->getValeur() && dest->getValeur()==d_fs[i]->getValeur())
-             ){
-                return true;
-            }
-            k++;
-        }
-    }*/
-    return false;
-}
-/*bool GrapheNonOriente::ajoutSommetPossible(int)const{
-    return true;
-}*/
 
-void GrapheNonOriente::displayData()const {
-
-}
+/*
 void GrapheNonOriente::createFile(const string& fileName)const{
     cout<<"\t\t>>createFile(const string& fileName)const function called"<<endl;
     ofstream file(fileName);
@@ -44,9 +20,6 @@ void GrapheNonOriente::createFile(const string& fileName)const{
     int size2=10;
     file<<size<<endl<<"   10 20 30 40 50 60 70 80 90 100 "<<endl;
     cout<<"\t\t>>createFile function called closed "<<endl;
-}
-/*Sommet* Graphe::getSommetByID(int)const{
-    return nullptr;
 }*/
 void GrapheNonOriente::readFile(const string& fileName){
     cout<<"\t\t>>readFile(const string& fileName)const function called"<<endl;
@@ -78,4 +51,5 @@ void GrapheNonOriente::readFile(const string& fileName){
 }
 void GrapheNonOriente::affiche(QTextEdit*debugger)const {
     debugger->append("GrapheNonOriente affiche statrt");
+
 }

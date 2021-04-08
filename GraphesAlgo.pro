@@ -10,8 +10,6 @@ CONFIG += c++11
 
 SOURCES += \
     addsommet.cpp \
-    connection.cpp \
-    connectionvalue.cpp \
     graphe.cpp \
     graphenonoriente.cpp \
     graphenonorientevalue.cpp \
@@ -23,8 +21,6 @@ SOURCES += \
 
 HEADERS += \
     addsommet.h \
-    connection.h \
-    connectionvalue.h \
     graphe.h \
     graphenonoriente.h \
     graphenonorientevalue.h \

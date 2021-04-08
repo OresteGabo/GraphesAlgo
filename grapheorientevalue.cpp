@@ -8,14 +8,10 @@ GrapheOrienteValue::~GrapheOrienteValue()
 {
 
 }
-bool GrapheOrienteValue::connectionExiste(Sommet*,Sommet*)const{
-    return true;
-}
 
 
-void GrapheOrienteValue::displayData()const {
+/*
 
-}
 void GrapheOrienteValue::createFile(const string& fileName)const{
     cout<<"\t\t>>createFile(const string& fileName)const function called"<<endl;
     ofstream file(fileName);
@@ -25,9 +21,7 @@ void GrapheOrienteValue::createFile(const string& fileName)const{
     file<<size2<<endl<<"   10 20 30 40 50 60 70 80 90 100 "<<endl;
     cout<<"\t\t>>createFile function called closed "<<endl;
 }
-/*Sommet* Graphe::getSommetByID(int)const{
-    return nullptr;
-}*/
+*/
 void GrapheOrienteValue::readFile(const string& fileName){
     cout<<"\t\t>>readFile(const string& fileName)const function called"<<endl;
     ifstream file(fileName);

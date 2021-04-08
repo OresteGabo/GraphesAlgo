@@ -14,17 +14,26 @@ public:
     Graphe();
     virtual ~Graphe();
     void loadData()const;
-    virtual bool connectionExiste(Sommet*,Sommet*)const=0;
-    bool ajoutSommetPossible(int)const;
-    virtual void displayData()const=0;
+
     virtual void affiche(QTextEdit*)const=0;
-    //virtual Sommet* getSommetByID(int)const=0;
+    virtual void readFile(const string&fileName);
     void ajoutSommet();
-    virtual void createFile(const string&)const=0;
-    virtual void readFile(const string&)=0;
+    void matriceFromFichier(const string &NomFichier);
+    void fsApsFromFichier(const string &NomFichier);
+    void matriceToFsAps();
+    void fsApsToMatrice();
+    int* nbSuccesseurs()const;
+    int* nbPredecesseurs()const;
+    int* getApp()const;
+    int* getFp()const;
+    int* distance(int sommet)const;
+    int** distance()const;
+    int* rangProfrondeur()const;
+
 
 protected:
-
+ int **d_matrice;
+ int *d_fs,*d_aps;
 
 };
 
