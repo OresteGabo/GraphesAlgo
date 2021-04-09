@@ -39,21 +39,19 @@ int main(int argc, char *argv[])
         cout<<"FSAPS"<<endl;
         g.afficheFsAps();
 
-
-        int **matDist=g.distance();
-        //Distance(fs,aps,1,dist1);
-        //t(fs,aps,matDist);
-        g.afficheMatrice();
-        g.afficheMatrice(matDist);
-        int *rang,*entret,*element;
-        cout<<"Rang profondeur"<<endl;
-        g.afficheDDI();
-        g.afficheTab(g.rangProfrondeur());
+        
 
         int *fpc,*appc,*lc,*d,*lt;
 
        // FromFichierToApAppD("FpAppD.txt",fp,app,d);
         //ordonnancement(fp,app,d,fpc,appc,lc);
+        
+        
+        
+        
+        
+        g.ordonnancement(d,fpc,a)
+        g.ordonnancement(fpc,appc,lc,d,true);
 
         /*int *jj;
         FsApsFromFichier(fs,aps,"FsAps.txt");

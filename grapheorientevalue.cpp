@@ -10,18 +10,7 @@ GrapheOrienteValue::~GrapheOrienteValue()
 }
 
 
-/*
 
-void GrapheOrienteValue::createFile(const string& fileName)const{
-    cout<<"\t\t>>createFile(const string& fileName)const function called"<<endl;
-    ofstream file(fileName);
-    int size=10;
-    file<<size<<endl<<"   197 2 3 4 5 6 7 8 9 10 "<<endl;
-    int size2=10;
-    file<<size2<<endl<<"   10 20 30 40 50 60 70 80 90 100 "<<endl;
-    cout<<"\t\t>>createFile function called closed "<<endl;
-}
-*/
 void GrapheOrienteValue::readFile(const string& fileName){
     cout<<"\t\t>>readFile(const string& fileName)const function called"<<endl;
     ifstream file(fileName);
@@ -56,3 +45,84 @@ void GrapheOrienteValue::affiche(QTextEdit* debugger)const {
 void GrapheOrienteValue::djkstra(QTextEdit*){
 
 }
+void GrapheOrienteValue::ordonnancement(int *&fpc, int *&appc, int *&lc,int *&d)const{
+    int *fp=getFp(),*app=getApp();
+    int nbSommet= app[0], taillFs= fp[0];
+    fpc = new int[taillFs+1];
+    appc = new int[nbSommet+1];
+    appc[0] = nbSommet;
+    lc = new int[nbSommet+1];
+    lc[0] = nbSommet;
+    for(int i=1;i<=nbSommet;i++){
+        lc[i]=0;
+    }
+    int kc, t, lg;
+    lc[1] = 0;
+    fpc[1] = 0;
+    appc[1] = 1;
+    kc = 1;
+    for(int s = 2;s <= nbSommet;s++){
+        lc[s] = 0;
+        appc[s] = kc+1;
+
+        for (int k = app[s];(t = fp[k]) != 0;k++){
+                lg = lc[t] + d[t];
+                if (lg >= lc[s])if (lg > lc[s]){
+                    lc[s] = lg;
+                    kc = appc[s];
+                    fpc[kc] = t;
+                }else{
+                    kc++;
+                    fpc[kc] = t;
+                }
+            }
+        kc++ ;
+        fpc[kc] = 0;
+    }
+    fpc[0] = kc;
+}
+void GrapheOrienteValue::ordonnancement( int *d, int *&fpc, int *&appc, int *&lc)const{
+    int NombreSommet= getApp()[0], taillFs= getFp()[0];
+    fpc = new int[taillFs+1];
+    appc = new int[NombreSommet+1];
+    appc[0] = NombreSommet;
+    lc = new int[NombreSommet+1];
+    lc[0] = NombreSommet;
+
+    for(int i=1;i<=NombreSommet;i++)
+    {
+        lc[i]=0;
+    }
+    int kc, t, lg;
+    lc[1] = 0;
+    fpc[1] = 0;
+    appc[1] = 1;
+    kc = 1;
+    afficheTab(getApp());
+    afficheTab(getFp());
+
+    for(int s = 2;s <= NombreSommet;s++){
+        lc[s] = 0;
+        appc[s] = kc+1;
+        for (int k = getApp()[s];(t = getFp()[k]) != 0;k++){
+            lg = lc[t] + d[t];
+            if(s==7){
+                cout<<lc[t] + d[t]<<endl;
+            }
+            if (lg >= lc[s])if (lg > lc[s]){
+                lc[s] = lg;
+                kc = appc[s];
+                fpc[kc] = t;
+            } else{
+                kc++;
+                fpc[kc] = t;
+            }
+        }
+        kc++ ;
+        fpc[kc] = 0;
+    }
+    fpc[0] = kc;
+}
+
+
+
