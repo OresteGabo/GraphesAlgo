@@ -15,6 +15,8 @@ void Graphe::matriceFromFichier(const string &NomFichier)
 {
     ifstream file;
     file.open(NomFichier);
+    if(!file)
+        cout<<"FILE_ERROR";
     int NombreSommet;
     int NombreArc;
     file>>NombreSommet;
@@ -43,6 +45,8 @@ void Graphe::fsApsFromFichier(const string &NomFichier)
 {
     ifstream file;
     file.open(NomFichier);
+    if(!file)
+        cout<<"FILE_ERROR";
     int tailleFs;
     file>>tailleFs;
     d_fs=new int[tailleFs+1];
@@ -129,8 +133,7 @@ int* Graphe::nbSuccesseurs()const {
     }
     return dde;
 }
-int* Graphe::nbPredecesseurs()const
-{
+int* Graphe::nbPredecesseurs()const{
     int *nbp;//nombre de predecesseurs
     int nbSommet=d_aps[0];
     nbp=new int[nbSommet+1];
@@ -138,49 +141,51 @@ int* Graphe::nbPredecesseurs()const
     int indexFs;
     for(int i=1;i<=d_aps[0];i++)
     {nbp[i]=0;}
-    for(int i=1;i<=d_aps[0];i++)
-    {
+    for(int i=1;i<=d_aps[0];i++){
         indexFs=d_aps[i];
-        while(d_fs[indexFs]!=0)
-        {
+        while(d_fs[indexFs]!=0){
             nbp[d_fs[indexFs]]+=1;
             indexFs++;
         }
-
     }
     return nbp;
 }
 int* Graphe::getApp()const{
-    int*app;
-    int nbSommet=d_aps[0];
-    app=new int[nbSommet+1];
-    app[0]=nbSommet;
-    app[1]=1;
-    for(int i=2;i<=nbSommet;i++){
-        int j=i-1;
-        app[i]=app[j]+ nbPredecesseurs()[j]+1;
+    int *App;
+    int NombreSommet=d_aps[0];
+    App=new int[NombreSommet+1];
+    App[0]=NombreSommet;
+    App[1]=1;
+    for(int i=2;i<=NombreSommet;i++)
+    {int j=i-1;
+       App[i]=App[j]+nbPredecesseurs()[j]+1;
     }
-    return app;
+    return App;
 }
 int* Graphe::getFp()const
 {
+    int *Fp;
     int taillFs=d_fs[0];
-    int* fp=new int[taillFs+1];
-    fp[0]=taillFs;
-    int indexFp,indexFs;
-    for(int i=1;i<=d_aps[0];i++){
-        indexFs=d_aps[i];
-        while(d_fs[indexFs]!=0){
-            indexFp=getApp()[d_fs[indexFs]];
-            fp[indexFp]=i;
-            getApp()[d_fs[indexFs]]+=1;
-            indexFs++;
+        Fp=new int[taillFs+1];
+        Fp[0]=taillFs;
+        int indexFp,indexFs;
+       for(int i=1;i<=d_aps[0];i++)
+        {
+            indexFs=d_aps[i];
+            while(d_fs[indexFs]!=0)
+            {
+                indexFp=getApp()[d_fs[indexFs]];
+              Fp[indexFp]=i;
+              getApp()[d_fs[indexFs]]+=1;
+              indexFs++;
+            }
+
         }
-    }
-    for(int i=1;i<=d_aps[0];i++){
-        fp[getApp()[i]]=0;
-    }
-    return fp;
+        for(int i=1;i<=d_aps[0];i++)
+        {
+        Fp[getApp()[i]]=0;
+        }
+        return Fp;
 }
 int* Graphe::distance(int sommet)const{
     int *tab;
@@ -389,6 +394,14 @@ void Graphe::creerUnFichierMatrice()const{
     ofstream f4("FpAppD.txt");
     f4<<" 29 0 1 0 1 0 2 3 0 3 0 4 5 0 4 6 0 4 6 0 6 8 0 2 7 8 9 0 10 0 "<<endl<<" 11 1 2 4 7 9 11 14 17 20 23 28 "<<endl;
     f4<<" 11 0 3 4 2 5 3 1 3 4 2 0 "<<endl;
+
+
+    ofstream f5("ordonnancement.txt");
+    f5<<" 31 2 3 0 4 5 0 5 7 0 6 0 7 8 9 0 7 8 9 0 10 0 11 0 11 0 12 0 13 0 11 0 "<<endl;
+    f5<<" 13 1 4 7 10 12 16 20 22 24 26 28 30 31 ";
+
+    ofstream f6("test.txt");
+    f6<<" 4 1 0 1 0 "<<endl<<" 2 1 3";
 
 
  }

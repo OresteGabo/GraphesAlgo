@@ -21,49 +21,15 @@ int main(int argc, char *argv[])
 */
 int main(int argc, char *argv[])
 {
-    int **mat;
-    auto g=GrapheOrienteValue();
-
-    g.matriceFromFichier("FpAppD.txt");
-    mat=g.getMatrice();
-    g.matriceToFsAps();
-
-
-
-        cout<<"-------------------"<<endl;
-
-        g.afficheDDE();
-        g.afficheDDI();
-        g.afficheFpApp();
-
-        cout<<"FSAPS"<<endl;
-        g.afficheFsAps();
-
-
-        int **matDist=g.distance();
-        //Distance(fs,aps,1,dist1);
-        //t(fs,aps,matDist);
-        g.afficheMatrice();
-        g.afficheMatrice(matDist);
-        int *rang,*entret,*element;
-        cout<<"Rang profondeur"<<endl;
-        g.afficheDDI();
-        g.afficheTab(g.rangProfrondeur());
+    auto g=GrapheOriente();
 
         int *fpc,*appc,*lc,*d,*lt;
 
-       // FromFichierToApAppD("FpAppD.txt",fp,app,d);
-        //ordonnancement(fp,app,d,fpc,appc,lc);
+        g.fsApsFromFichier("test.txt");
 
-        /*int *jj;
-        FsApsFromFichier(fs,aps,"FsAps.txt");
-        //AfficherAps(aps);
-        //AfficherFs(fs);
-        NombreDePredecesseurs(fs,aps,jj);
-        AfficherAps(jj);
-        APP(fs,aps,jj,app);
-        FP(fs,aps,app,fp);
-        d=new int[aps[0]+1];
+        g.afficheFsAps();
+        g.afficheFpApp();
+        d=new int[g.getApp()[0]+1];
         d[0]=13;
         d[1]=0;
         d[2]=7;
@@ -79,7 +45,7 @@ int main(int argc, char *argv[])
         d[12]=1;
         d[13]=0;
 
-        //ordonnancement(fp,app,d,fpc,appc,lc);
+        //g.ordonnancement(d,fpc,appc,lc);
 
         //AfficherFs(fp);
         //AfficherAps(app);

@@ -9,8 +9,7 @@ public:
     virtual ~GrapheOrienteValue();
     virtual void affiche(QTextEdit*)const override;
     virtual void djkstra(QTextEdit*);
-    void ordonnancement(int *&fpc, int *&appc, int *&lc,int *&d)const;
-    void ordonnancement( int *d, int *&fpc, int *&appc, int *&lc)const;
+    void ordonnancement(int *d, int *&fpc, int *&appc, int *&lc);
     virtual void readFile(const string&fileName)override;
 };
 
