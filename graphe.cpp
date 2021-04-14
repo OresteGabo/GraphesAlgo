@@ -1,5 +1,5 @@
 #include "graphe.h"
-
+//#include"sommet.h"
 Graphe::Graphe()
 {
     creerUnFichierMatrice();
@@ -287,7 +287,7 @@ int* Graphe::rang(int *&num)const{
     }
     return resultat;
 }
-int* Graphe::rangProfrondeur()const{
+int* Graphe::rangProfrondeur(QTextEdit* d)const{
     int nbSommet=d_aps[0];
     int *resultat=new int[nbSommet+1];
     int *file=new int[50];
@@ -307,7 +307,7 @@ int* Graphe::rangProfrondeur()const{
     while(tete<quefile){
         for(int i=tete;i<fin;i++){
             int sommet=file[i];
-            cout<<"s="<<sommet<<"ddi="<<ddi[sommet]<<endl;
+            d->append("s="+QString::number(sommet)+"ddi="+QString::number(ddi[sommet]));
             if(ddi[sommet]==0){
                 resultat[sommet]=r;
                 int indexFs=d_aps[sommet];
@@ -333,20 +333,83 @@ int* Graphe::rangProfrondeur()const{
         tete=fin;
         fin=quefile;
         r++;
-        cout<<r<<"------------------"<<endl;
+        d->append(QString::number(r)+"------------------");
     }
     return resultat;
 }
+int* Graphe::det_rang( int *&num){
+    int *rrang;
+    int n = d_aps[0];
+    num = new int[n+1];
+    rrang = new int[n+1];
+    num[0] = n;
+
+    int *pile = new int[n+1]; // pour gérer les sommets
+    // indices dans la pile
+    int t = 1;
+    int r = 0;
+    int pas = -1;
+    int e = 0;
+    int y,d;
+
+    //init le rang
+    for(int i = 1; i <= n; i++)
+    {
+        rrang[i] = -1;
+        num[i] = -1;
+    }
+    rrang[0] = n;
+    num[0] = n;
+
+    for(int i = 1; i <= n; i++)
+    {
+        if(nbSuccesseurs()[i] == 0) //pas d'arc vers le sommet i
+            pile[++e] = i; //empile le sommet i
+    }
+    d = n+1;
+    while((e != 0) && (e != n+1)) //tant qu'il reste des arcs de ddi dans la pile
+    {
+        int x = e; // permutation des elements de la pile
+        e = d;
+        d = x;
+        while((d != 0)&&(d != n+1)) // s'il reste des atcs de ddi dans la pile inversée
+        {
+            int s = pile[d]; // sommet de la pile
+            rrang[s] = r; // le rang du sommet courant
+            num[s] = t;
+            t++;
+            for(int l = d_aps[s]; (y=d_fs[l]) > 0; l++) // parcours des successeurs du sommet
+            {
+                nbSuccesseurs()[y]--; // arc de moins
+                if(nbSuccesseurs()[y] == 0)
+                {
+                    e += pas;
+                    pile[e] = y; // ajout du sommet qui n'a plus d'arcs
+                }
+            }
+            d += pas; //
+        }
+        r++; // rang suivant
+        pas = -pas; // parcours au sens inverse
+    }
+    return rrang;
+}
 
 void Graphe::afficheFsAps(QTextEdit* debugger)const{
-    for(int i=0;i<=d_fs[0];i++)
-       {
-        debugger->append( " "+QString::number(d_fs[i]));
-       }
-        for(int i=0;i<=d_aps[0];i++){
-        debugger->append( " "+QString::number(d_aps[i]));
-        }
-        cout <<endl ;
+    QString fs="",aps="";
+    for(int i=0;i<=d_fs[0];i++){
+        fs+=" ";
+        fs+=QString::number(d_fs[i]);
+        //debugger->append( " "+QString::number(d_fs[i]));
+    }
+    for(int i=0;i<=d_aps[0];i++){
+        aps+=" ";
+        aps+=QString::number(d_aps[i]);
+
+    }
+    debugger->append("FS: "+fs);
+    debugger->append("FS: "+aps);
+
 }
 void Graphe::afficheTab(int*tab)const{
     cout<<endl;
@@ -354,17 +417,31 @@ void Graphe::afficheTab(int*tab)const{
         cout << ' '<<tab[i];
     }cout<<endl;
 }
-void Graphe::afficheMatrice(QTextEdit* debugger)const{
-    for(int i=0;i<=d_matrice[0][0];i++)
-        {
-            for(int j=0;j<=d_matrice[0][0];j++)
-            {
-             debugger->append( " "+QString::number(d_matrice[i][j]));
 
-            }
-            cout<<endl;
+void Graphe::afficheTab(int*tab,QTextEdit* d)const{
+    cout<<endl;
+    string str="";
+    for(int i=0;i<=tab[0];i++){
+        str=str+ " "+to_string (tab[i]);
+    }cout<<endl;
+    d->append(QString::fromStdString(str));
+}
+
+void Graphe::afficheMatrice(QTextEdit* debugger,int** m)const{
+    debugger->append("\nMatrice ");
+    for(int i=0;i<=m[0][0];i++){
+        QString s="             ";
+        for(int j=0;j<=m[0][0];j++){
+            s+= QString::number(m[i][j]);
         }
-        cout<<endl;
+        debugger->append(s);
+     }
+}
+void Graphe::afficheMatrice(QTextEdit* debugger)const{
+    afficheMatrice(debugger,d_matrice);
+}
+void Graphe::afficheDistance(QTextEdit* debugger)const{
+    afficheMatrice(debugger,distance());
 }
 void Graphe::afficheFsAps()const{
     cout<<"FS: ";
@@ -425,10 +502,20 @@ void Graphe::afficheDDE()const{
     afficheTab(dde);
 
 }
+void Graphe::afficheDDE(QTextEdit*d)const{
+    int *dde=nbSuccesseurs();
+    d->append("DDE:");
+    afficheTab(dde,d);
+}
+void Graphe::afficheDDI(QTextEdit*d)const{
+    int *ddi=nbPredecesseurs();
+    d->append("DDI:");
+    afficheTab(ddi,d);
+}
 void Graphe::afficheDDI()const{
     int *ddi=nbPredecesseurs();
-    cout<<"DDI:";
-    afficheTab(ddi);
+        cout<<"DDI:";
+        afficheTab(ddi);
 }
 
 void Graphe::afficheFpApp()const{
@@ -484,4 +571,3 @@ void Graphe::readFile(const string& fileName){
     }
     cout<<endl<<"end of loop aps, and end of function "<<endl;
 }
-

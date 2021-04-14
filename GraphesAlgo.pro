@@ -15,8 +15,9 @@ SOURCES += \
     graphenonorientevalue.cpp \
     grapheoriente.cpp \
     grapheorientevalue.cpp \
+    kruskal.cpp \
     main.cpp \
-    sommet.cpp \
+    mass.cpp \
     widget.cpp
 
 HEADERS += \
@@ -26,7 +27,8 @@ HEADERS += \
     graphenonorientevalue.h \
     grapheoriente.h \
     grapheorientevalue.h \
-    sommet.h \
+    kruskal.h \
+    mass.h \
     widget.h
 
 # Default rules for deployment.
@@ -34,6 +36,4 @@ qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
-DISTFILES += \
-    MatriceAff.qml \
-    MatriceAffForm.ui.qml
+DISTFILES +=

@@ -1,6 +1,5 @@
 #ifndef GRAPHENONORIENTEVALUE_H
 #define GRAPHENONORIENTEVALUE_H
-#include"sommet.h"
 #include"graphenonoriente.h"
 #include<iostream>
 using namespace std;

@@ -1,7 +1,7 @@
 #include "widget.h"
 
-Widget::Widget(QWidget *parent)
-    : QWidget(parent),d_graphe{nullptr}
+Widget::Widget(Graphe*g,QWidget *parent)
+    : QWidget(parent),d_graphe{g}
 {
 
     /*
@@ -9,7 +9,6 @@ Widget::Widget(QWidget *parent)
      * QComboBox *d_liste;
      * QTextEdit* d_debugger;
      */
-
 
     d_djkstra=new QPushButton("Djkstra");
     d_rang=new QPushButton("Rang");
@@ -26,6 +25,15 @@ Widget::Widget(QWidget *parent)
     d_liste=new QComboBox;
     d_debugger=new QTextEdit;
     d_debugger->setTextColor(QColor(0,0,100));
+
+    d_fsAps=new QPushButton("Afficher FSAPS");
+
+    d_matrice=new QPushButton("MATRICE");
+    d_nbSuccesseur=new QPushButton("NB SUCCESSEURS");
+    d_nbPredecesseur=new QPushButton("PREDECESSEURS");
+    d_distance=new QPushButton("DISTANCE");
+    d_ddi=new QPushButton("DDI");
+    d_dde=new QPushButton("DDE");
     chargerFichiers();
     //int size=d_liste->size();
 
@@ -53,11 +61,17 @@ Widget::Widget(QWidget *parent)
     buttons->addWidget(d_prufer);
     buttons->addWidget(d_kruskal);
     buttons->addWidget(d_tarjan);
-    buttons->addWidget(d_addSommet);
+    /*buttons->addWidget(d_addSommet);
     buttons->addWidget(d_addConnection);
     buttons->addWidget(d_removeConnection);
     buttons->addWidget(d_removeSommet);
-    buttons->addWidget(d_display);
+    buttons->addWidget(d_display);*/
+
+    buttons->addWidget(d_fsAps);
+    buttons->addWidget(d_matrice);
+    buttons->addWidget(d_distance);
+    buttons->addWidget(d_ddi);
+    buttons->addWidget(d_dde);
 
     h2->addLayout(buttons);
 
@@ -90,9 +104,12 @@ Widget::Widget(QWidget *parent)
     connect(d_removeConnection,&QPushButton::clicked,this,&Widget::onRemoveConnection);
     connect(d_exit,&QPushButton::clicked,this,&Widget::onExit);
     connect(d_clear,&QPushButton::clicked,this,&Widget::onClear);
-    connect(d_display,&QPushButton::clicked,this,&Widget::onDisplay);
-    //connect(d_liste,&QComboBox::currentTextChanged(const QString&),this,&Widget::onGO());
-    //connect(d_liste, SIGNAL(currentTextChanged(const string&)), this, SLOT(onChangeFile(const string&)));
+    connect(d_fsAps,&QPushButton::clicked,this,&Widget::onFsAps);
+    connect(d_matrice,&QPushButton::clicked,this,&Widget::onMatrice);
+    connect(d_distance,&QPushButton::clicked,this,&Widget::onDistance);
+    connect(d_ddi,&QPushButton::clicked,this,&Widget::onDdi);
+    connect(d_dde,&QPushButton::clicked,this,&Widget::onDde);
+
 
     connect(d_go,&QPushButton::clicked,this,&Widget::onGO);
 
@@ -119,12 +136,7 @@ void Widget::chargerFichiers(){
     d_fichiers.push_back(file9);
     d_fichiers.push_back(file10);
     d_debugger->append("    >>chargement de fichiers");
-    /*vector<QString> vect=generateRandomFiles();
-    d_debugger->append(">>The size of the vector is "+QString::number(vect.size()));
-    for(unsigned long x=0;x<vect.size();x++){
-        d_fichiers.push_back(vect[x].toStdString());
-        d_debugger->append(">>"+vect[x]);
-    }*/
+
 }
 Widget::~Widget()
 {
@@ -196,7 +208,7 @@ void Widget::MAJBoutons(){
     ifstream ist(d_fichier);
     string code;
     ist>>code;
-    disableAllButtons();
+    //disableAllButtons();
 
     if(code=="CODE00"){
         d_debugger->append("     >>Le fichier contient un graphe non orienté et non valué");
@@ -259,20 +271,46 @@ void Widget::onListe(){
 
 void Widget::onDjkstra(){
     d_debugger->append("    >>Djkstra clicked");
+    //d_graphe->djkstra(d_debugger);
 }
 void Widget::onRang(){
     //Le rand is like the trees floors, when a tree form a cycle, the rang becomes infinity
     d_debugger->append("    >>Rang clicked");
+    QString s="";
+    //int* rg=d_graphe->det_rang()
+    d_graphe->rangProfrondeur(d_debugger);
 }
 void Widget::onPrufer(){
     d_debugger->append("    >>prufer clicked");
 }
-void Widget::onKruskal(){
-    d_debugger->append("    >>kruskal clicked");
-}
+
 void Widget::onTarjan(){
     d_debugger->append("    >>Trajan clicked");
     ((GrapheOriente*)d_graphe)->tarjan(d_debugger);
+    std::vector<int> prem;
+        std::vector<int> pilch;
+        std::vector<int> cfc;
+        ((GrapheOriente*)d_graphe)->calculerCFC(prem,pilch,cfc);
+        d_debugger->append("le tableau prem : ");
+        QString premStr="",pilchStr,cfcStr;
+        for(unsigned int i =0 ;i<prem.size();i++){
+             premStr+=(QString::number(prem[i])+"    ");
+        }
+        d_debugger->append(premStr);
+
+         d_debugger->append("le tableau pilch : ");
+         for(unsigned int i =1 ;i<pilch.size();i++){
+             //cout<<"sommet "<<i<<":"<<pilch[i]<< " ";
+             d_debugger->append("Sommet "+QString::number(pilch[i])+" : "+QString::number(pilch[i])+"    ");
+         }
+         d_debugger->append("le tableau cfc : ");
+         for(unsigned int i =0 ;i<cfc.size();i++)
+         {
+             cfcStr+=(QString::number(cfc[i])+"    ");
+
+         }
+         d_debugger->append(cfcStr);
+
 }
 void Widget::onExit(){
     d_debugger->append("    >>Exit clicked");
@@ -307,6 +345,57 @@ void Widget::onDisplay(){
     //GrapheDisplay *graphe=new GrapheDisplay(this);
     //graphe->show();
 }
+
+void Widget::onFsAps(){
+    d_debugger->append("");
+    d_graphe->afficheFsAps(d_debugger);
+}
+void Widget::onMatrice(){
+    d_graphe->afficheMatrice(d_debugger);
+}
+void Widget::onDdi(){
+    d_debugger->append("");
+    d_graphe->afficheDDI(d_debugger);
+}
+void Widget::onDde(){
+    d_debugger->append("");
+    d_graphe->afficheDDE(d_debugger);
+}
+void Widget::onNbPredecesseur(){}
+void Widget::onNbSuccesseur(){}
+void Widget::onDistance(){
+    d_debugger->append("");
+    d_graphe->afficheDistance(d_debugger);
+}
+void Widget::onKruskal(){
+    Mass m;
+    d_debugger->append("");
+    d_debugger->append("    >>kruskal clicked");
+    graphe g, t;
+    m.saisie(g,d_debugger);
+    int n = g.n;
+    int *prem = new int[n + 1];
+    int *pilch = new int[n + 1];
+    int *cfc = new int[n + 1];
+    int *NbElem = new int[n + 1];
+    for(int i=1; i<=n;i++)
+    {					// prem ,pilch, cfc sont initialisé avant le début du programme
+        prem[i] = i;
+        pilch[i] = 0;
+        cfc[i] = i;
+        NbElem[i] = 1;
+    }
+    m.trier(g);
+    m.kruskal(g, t, prem, pilch, cfc,NbElem);
+    m.affichage(t,d_debugger);
+}
+void Widget::onOrdonnancement(){
+
+}
+
+
+
+
 vector<QString> Widget::generateRandomFiles(){
     ofstream f1("fichier1.txt"); f1<<"CODE00 "<<endl<<"8"<<endl<<"2 3 4 0 3 0 0 2"<<endl<<"4"<<endl<<"1 5 7 8";
     ofstream f2("fichier2.txt"); f2<<"CODE01 "<<endl<<"8"<<endl<<"2 3 4 0 3 0 0 2"<<endl<<"4"<<endl<<"1 5 7 8";

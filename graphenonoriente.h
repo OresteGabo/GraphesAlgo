@@ -1,6 +1,5 @@
 #ifndef GRAPHENONORIENTE_H
 #define GRAPHENONORIENTE_H
-#include"sommet.h"
 #include"graphe.h"
 #include<iostream>
 #include<QTextEdit>

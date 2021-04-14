@@ -19,6 +19,7 @@
 #include<QHBoxLayout>
 #include<QVBoxLayout>
 #include<QString>
+#include"mass.h"
 
 
 class Widget : public QWidget
@@ -26,7 +27,7 @@ class Widget : public QWidget
     Q_OBJECT
 
 public:
-    Widget(QWidget *parent = nullptr);
+    Widget(Graphe*g,QWidget *parent = nullptr);
     ~Widget();
     void menuPrincipale();
     string choisirFichier();
@@ -38,9 +39,9 @@ public:
 
 private:
     vector<string>d_fichiers;
-    Graphe* d_graphe;
+   Graphe* d_graphe;
     QPushButton* d_djkstra,*d_rang,*d_prufer,*d_kruskal,*d_tarjan,*d_exit,*d_addSommet,*d_addConnection,
-    *d_removeConnection,*d_removeSommet,*d_go,*d_display;
+    *d_removeConnection,*d_removeSommet,*d_go,*d_display,*d_fsAps,*d_matrice,*d_nbSuccesseur,*d_nbPredecesseur,*d_distance, *d_ddi,*d_dde;
     QComboBox *d_liste;
     QTextEdit* d_debugger;
     string d_fichier;
@@ -64,6 +65,14 @@ private slots:
     void onGO();
     void onClear();
     void onDisplay();
+    void onFsAps();
+    void onMatrice();
+    void onDdi();
+    void onDde();
+    void onNbPredecesseur();
+    void onNbSuccesseur();
+    void onDistance();
+    void onOrdonnancement();
 
 
 
