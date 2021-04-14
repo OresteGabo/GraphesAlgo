@@ -242,9 +242,11 @@ void Widget::MAJFichier( ){
     }else if(d_liste->currentText()=="FpAppD.txt"){
         d_debugger->append("FpAppDD.txt##");
     }
-    /*else if(d_liste->currentText()==".txt"){
+    else if(d_liste->currentText()=="prufer.txt"){
+        d_debugger->append("prufer.txt");
 
-    }else if(d_liste->currentText()==".txt"){
+
+    }/*else if(d_liste->currentText()==".txt"){
 
     }else if(d_liste->currentText()==".txt"){
 
@@ -534,9 +536,9 @@ void Widget::onPrufer(){
 
     d_debugger->append("    >>prufer clicked");
     int **a,  *prf;
-    saisie_fich("arbre.txt", a);
+    saisie_fich("prufer.txt", a);
     prf=prufer(a);
-    d_graphe->afficheTab(prf);
+    d_graphe->afficheTab(prf,d_debugger);
 
 }
 
@@ -558,11 +560,15 @@ void Widget::generateRandomFiles(){
     f1<<"0 0 0 0 0 0 0 0 "<<endl;
     f1<<"0 0 0 0 1 0 1 0 "<<endl;
 
+    ofstream f2("prufer.txt");
+    f2<<"4"<<endl<<" 1 0 1 0 0"<<endl<<"1 0 0 1 0"<<endl<<"1 0 0 0 1"<<endl<<"0 0 0 0 0"<<endl;
+
     vector<string>strs;
     d_fichiers.push_back("Matrice.txt");
     d_fichiers.push_back("MatriceD.txt");
     d_fichiers.push_back("FsAps.txt");
     d_fichiers.push_back("FpAppD.txt");//pour ordonnancement
+    d_fichiers.push_back("prufer.txt");
 
 
 
