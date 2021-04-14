@@ -504,8 +504,7 @@ void Widget::saisie_fich(const string& nom, int** &a){
 
 
     for (int i = 1; i <= nb_som; i++)
-    for (int j = 1; j <= nb_som; j++)
-    {
+    for (int j = 1; j <= nb_som; j++){
         fichier >> som;
         a[i][j] = som;     // parcours le fichier pour lire les diffÃ©rents sommets
         a[i][0] += som;
@@ -534,20 +533,16 @@ int* prufer(int **a)
 }
 void Widget::onPrufer(){
 
-    d_debugger->append("    >>prufer clicked");
+    d_debugger->append("    Changement de fichier !! prufer.txt est utilisé ");
     int **a,  *prf;
     saisie_fich("prufer.txt", a);
     prf=prufer(a);
     d_graphe->afficheTab(prf,d_debugger);
-
 }
 
 void Widget::onOrdonnancement(){
 
 }
-
-
-
 
 void Widget::generateRandomFiles(){
 
