@@ -13,9 +13,9 @@ using namespace std;
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    GrapheOrienteValue *g=new GrapheOrienteValue();
-    g->matriceFromFichier("Matrice.txt");
-    g->matriceToFsAps();
+    GrapheOriente *g=new GrapheOrienteValue();
+    //g->matriceFromFichier("Matrice.txt");
+    //g->matriceToFsAps();
 
     Widget w(g);
     w.show();

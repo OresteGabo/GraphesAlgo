@@ -27,6 +27,7 @@ public:
     int* distance(int sommet)const;//TESTED
     int** distance()const;//TESTED
     int* rangProfrondeur(QTextEdit* d)const;
+    bool djikstra (int s, int *&d, int *&pred);
 
     void afficheFsAps()const;  //TESTED
     void afficheFsAps(int*,QTextEdit*)const;  //TESTED

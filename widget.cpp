@@ -4,12 +4,6 @@ Widget::Widget(Graphe*g,QWidget *parent)
     : QWidget(parent),d_graphe{g}
 {
 
-    /*
-     * QPushButton* d_djkstra,*d_rang,*d_prufer,*d_kruskal,*d_tarjan,d_exit;
-     * QComboBox *d_liste;
-     * QTextEdit* d_debugger;
-     */
-
     d_djkstra=new QPushButton("Djkstra");
     d_rang=new QPushButton("Rang");
     d_prufer=new QPushButton("Prufer");
@@ -25,6 +19,7 @@ Widget::Widget(Graphe*g,QWidget *parent)
     d_liste=new QComboBox;
     d_debugger=new QTextEdit;
     d_debugger->setTextColor(QColor(0,0,100));
+    d_debugger->setStyleSheet("background-color: rgb(180,180,180);");
 
     d_fsAps=new QPushButton("Afficher FSAPS");
 
@@ -34,7 +29,8 @@ Widget::Widget(Graphe*g,QWidget *parent)
     d_distance=new QPushButton("DISTANCE");
     d_ddi=new QPushButton("DDI");
     d_dde=new QPushButton("DDE");
-    chargerFichiers();
+    generateRandomFiles();
+    MAJFichier();
     //int size=d_liste->size();
 
     for(int x=0;x<(int)d_fichiers.size();x++){
@@ -121,29 +117,13 @@ Widget::Widget(Graphe*g,QWidget *parent)
     MAJBoutons();
     resize(900,500);
 }
-void Widget::chargerFichiers(){
-    string file1="fichier1.txt",file2="fichier2.txt",file3="fichier3.txt",file4="fichier4.txt",file5="fichier5.txt",file6="fichier6.txt",file7="fichier7.txt",file8="fichier8.txt",file9="fichier9.txt",file10="fichier10.txt";
-    d_fichiers.push_back(file1);
-    //QString str=">>Fichier "+file1+ " created, and added in a vector";
 
-    d_fichiers.push_back(file2);
-    d_fichiers.push_back(file3);
-    d_fichiers.push_back(file4);
-    d_fichiers.push_back(file5);
-    d_fichiers.push_back(file6);
-    d_fichiers.push_back(file7);
-    d_fichiers.push_back(file8);
-    d_fichiers.push_back(file9);
-    d_fichiers.push_back(file10);
-    d_debugger->append("    >>chargement de fichiers");
-
-}
 Widget::~Widget()
 {
 }
 
 Graphe* Widget::creerGraphe(const string& fileName){
-    string code;
+    /*string code;
     ifstream file(fileName);
     file>>code;
 
@@ -169,28 +149,16 @@ Graphe* Widget::creerGraphe(const string& fileName){
         return graphe;
     }
     d_debugger->append("     >>Le fichier inconnu");
-    return nullptr;
+    */return nullptr;
 }
 bool Widget::fichierValide(const string&fileName)const{
     ifstream ist(fileName);
     if(!ist){
-        d_debugger->append(">>FILE_NOT_FOUND");
         return false;
     }
-    string code;
-    ist>>code;
-    if(code=="CODE00" || code=="CODE01" || code=="CODE10" || code=="CODE11"){
-        d_debugger->append("     >>Le fichier chargé avec success");
-        return true;
-    }
-    d_debugger->append("     >>FILE_WRONG_TYPE");
-    return false;
+    return true;
 }
-void Widget::loadFile(const string& fileName){
-    if(fichierValide(fileName)){
-        d_graphe=creerGraphe(fileName);
-    }
-}
+
 void Widget::disableAllButtons(){
     d_djkstra->setEnabled(false);
     d_rang->setEnabled(false);
@@ -205,6 +173,7 @@ void Widget::disableAllButtons(){
 
 }
 void Widget::MAJBoutons(){
+    /*
     ifstream ist(d_fichier);
     string code;
     ist>>code;
@@ -257,14 +226,35 @@ void Widget::MAJBoutons(){
         //matrice d'adjecence
         return;
     }
+    */
 }
 
 void Widget::MAJFichier( ){
     d_fichier=d_liste->currentText().toStdString();
+    //d_debugger->append("Mifstarted##");
+    if(d_liste->currentText()=="Matrice.txt" || d_liste->currentText()=="MatriceD.txt"){
+        d_graphe->matriceFromFichier("Matrice.txt");
+        d_graphe->matriceToFsAps();
+    }else if(d_liste->currentText()=="FsAps.txt"){
+        d_graphe->fsApsToMatrice();
+        d_debugger->append("FsAps.txt##");
+
+    }else if(d_liste->currentText()=="FpAppD.txt"){
+        d_debugger->append("FpAppDD.txt##");
+    }
+    /*else if(d_liste->currentText()==".txt"){
+
+    }else if(d_liste->currentText()==".txt"){
+
+    }else if(d_liste->currentText()==".txt"){
+
+    }*/
+
 }
 
 void Widget::onListe(){
     d_debugger->append("    >>Liste selected");
+
     onGO();
 
 }
@@ -280,9 +270,7 @@ void Widget::onRang(){
     //int* rg=d_graphe->det_rang()
     d_graphe->rangProfrondeur(d_debugger);
 }
-void Widget::onPrufer(){
-    d_debugger->append("    >>prufer clicked");
-}
+
 
 void Widget::onTarjan(){
     d_debugger->append("    >>Trajan clicked");
@@ -329,12 +317,14 @@ void Widget::onRemoveSommet(){
     d_debugger->append("    >>Remove sommet clicked");
 }
 void Widget::onGO(){
-    d_debugger->append("    >>Go clicked");
+    MAJFichier();
     if(fichierValide(d_liste->currentText().toStdString())){
+        d_debugger->append("fichier valide");
         MAJFichier();
         MAJBoutons();
     }else{
-        d_debugger->append("fichier invalide");
+        d_debugger->append("FILE_NOT_FOUND");
+        disableAllButtons();
     }
 
 }
@@ -367,12 +357,109 @@ void Widget::onDistance(){
     d_debugger->append("");
     d_graphe->afficheDistance(d_debugger);
 }
+
+
+
+void Widget::saisie(graphe &g){
+    int s, t;
+    arete ar;
+    d_debugger->append( "Saisie d'un graphe non oriente value arete par arete ");
+    g.n=QInputDialog::getInt(this,"sommets","Donnez le nombre de sommets",QLineEdit::Normal,3);
+
+    do{
+        g.m=QInputDialog::getInt(this,"aretes","Donnez le nombre d'aretes :",QLineEdit::Normal,3);
+    } while (g.m < g.n);
+
+    g.a = new arete[g.m];
+
+    d_debugger->append(  "Saisissez les " +QString::number( g.m )+ " aretes" );
+    for (int i = 0; i < g.m; i++){
+        cout << "arete n " << i + 1 << " :" << endl;
+        d_debugger->append( "arete n " +QString::number( i + 1)+" :");
+        do{
+            s=QInputDialog::getInt(this,"extremite","extremite 1 (entre 1 et " +QString::number(g.n)+ " ) ",QLineEdit::Normal,1);
+            ar.s = s;
+        } while ((s < 1) && (s > g.n));
+        do{
+            t=QInputDialog::getInt(this,"aretes","extremite 2 (entre 1 et " +QString::number(g.n)+ " ) : ",QLineEdit::Normal);
+            ar.t = t;
+        }while ((t < 1) && (t > g.n));
+        g.a[i] = ar;
+        g.a[i].p=QInputDialog::getInt(this,"aretes","Poids de l'arete : ",QLineEdit::Normal);
+    }
+}
+void affichage(graphe g,QTextEdit * d){
+    for (int i = 0; i < g.m; i++){
+        d->append( "Arete No "+ QString::number( i + 1) + " : (" +QString::number( g.a[i].s )+ " , " +QString::number( g.a[i].t) + ")  ---  " + QString::number(g.a[i].p) );
+        cout << "Arete No " << i + 1 << " : (" << g.a[i].s << " , " << g.a[i].t << ")  ---  " << g.a[i].p << endl;
+
+    }
+}
+void trier(graphe &g)
+{
+    double p;
+
+    for (int i = 0; i < g.m - 1; i++)
+        for (int j = i + 1; j < g.m; j++)
+            if ((g.a[j].p < g.a[i].p) || (g.a[j].p == g.a[i].p && g.a[j].s < g.a[i].t) || (g.a[j].p == g.a[i].p && g.a[j].t < g.a[i].t))
+            {
+                p = g.a[j].p;
+                g.a[j].p = g.a[i].p;
+                g.a[i].p = p;
+            }
+}
+
+void fusionner(int i, int j, int *prem, int *pilch, int *cfc, int *NbElem)
+// i et j sont les numéros des composantes à fusionner
+// en une seule composante qui portera le numéro le plus
+// petit des deux
+{
+    if (NbElem[i] < NbElem[j])
+    {
+        int aux = i;
+        i = j;
+        j = aux;
+    }
+    int s = prem[j];
+    cfc[s] = i;
+    while (pilch[s] != 0)
+    {
+        s = pilch[s];
+        cfc[s] = i;
+    }
+    pilch[s] = prem[i];
+    prem[i] = prem[j];
+    NbElem[i] += NbElem[j];
+}
+
+void kruskal(graphe g, graphe &t, int *prem, int *pilch, int *cfc, int *NbElem)
+//Les tableaux prem, pilch et cfc sont des variables globales initialis�es dans le main
+//Le tableau des ar�tes de g est d�j� tri�
+{
+    t.a = new arete[g.n-1];
+    int x; // respectivement le num�ro de composante de la 1�re  extr�mit� de l�ar�te courante
+    int y; // respectivement le num�ro de composante de la 2�me  extr�mit� de l�ar�te courante
+    int i = 0, j = 0;//respectivement indice dans g et t
+    while (j < g.n-1)
+    {
+        arete ar = g.a[i];
+        x = cfc[ar.s];
+        y = cfc[ar.t];
+        if (x != y)
+        {
+            t.a[j++] = g.a[i];
+            fusionner(x, y, prem, pilch, cfc, NbElem);
+        }
+        i++;
+    }
+    t.n = g.n;
+    t.m = g.n - 1;
+}
 void Widget::onKruskal(){
-    Mass m;
-    d_debugger->append("");
-    d_debugger->append("    >>kruskal clicked");
+    d_debugger->setText("");
+    d_debugger->setText("Les données de cet algorithmes doivent etre saisi a la main!");
     graphe g, t;
-    m.saisie(g,d_debugger);
+    saisie(g);
     int n = g.n;
     int *prem = new int[n + 1];
     int *pilch = new int[n + 1];
@@ -385,10 +472,74 @@ void Widget::onKruskal(){
         cfc[i] = i;
         NbElem[i] = 1;
     }
-    m.trier(g);
-    m.kruskal(g, t, prem, pilch, cfc,NbElem);
-    m.affichage(t,d_debugger);
+    //d_debugger->append("TRI DU GRAPHE EN COURS");
+    trier(g);
+    //d_debugger->append("KRUSKAL");
+    kruskal(g, t, prem, pilch, cfc,NbElem);
+    //d_debugger->append("RESULTAT (AFFICHAGE)");
+    affichage(t,d_debugger);
 }
+
+//pour prufer
+void Widget::saisie_fich(const string& nom, int** &a){
+    int nb_som, som;
+    ifstream fichier(nom);
+    if (!fichier){
+        d_debugger->append( "Probleme d'ouverture du fichier ");// << nom << endl;
+        return;
+    }
+    fichier >> nb_som;
+
+    a = new int*[nb_som+1];
+    a[0] = new int;
+    a[0][0] = nb_som;
+    for(int i=1; i<=nb_som; i++)
+    {
+        a[i] = new int[nb_som+1];
+        for(int j=0; j <=nb_som; j++)
+            a[i][j] = 0;
+    }
+
+
+    for (int i = 1; i <= nb_som; i++)
+    for (int j = 1; j <= nb_som; j++)
+    {
+        fichier >> som;
+        a[i][j] = som;     // parcours le fichier pour lire les diffÃ©rents sommets
+        a[i][0] += som;
+    }
+}
+
+int* prufer(int **a)
+{
+    int *prf;
+    int nb_som = a[0][0];
+    prf = new int[nb_som-1];
+    prf[0] = nb_som-2;
+    int k = 1;
+    while (k <= nb_som-2)
+    {	int i = 1;
+        for (; a[i][0] != 1; i++);
+        int j=1;
+        for (; a[i][j] != 1; j++);
+        prf[k++]=j;
+        a[i][j]=0;
+        a[j][i]=0;
+        a[i][0]=0;
+        a[j][0]--;
+    }
+    return prf;
+}
+void Widget::onPrufer(){
+
+    d_debugger->append("    >>prufer clicked");
+    int **a,  *prf;
+    saisie_fich("arbre.txt", a);
+    prf=prufer(a);
+    d_graphe->afficheTab(prf);
+
+}
+
 void Widget::onOrdonnancement(){
 
 }
@@ -396,25 +547,25 @@ void Widget::onOrdonnancement(){
 
 
 
-vector<QString> Widget::generateRandomFiles(){
-    ofstream f1("fichier1.txt"); f1<<"CODE00 "<<endl<<"8"<<endl<<"2 3 4 0 3 0 0 2"<<endl<<"4"<<endl<<"1 5 7 8";
-    ofstream f2("fichier2.txt"); f2<<"CODE01 "<<endl<<"8"<<endl<<"2 3 4 0 3 0 0 2"<<endl<<"4"<<endl<<"1 5 7 8";
-    ofstream f3("fichier3.txt"); f3<<"CODE10 "<<endl<<"8"<<endl<<"2 3 4 0 3 0 0 2"<<endl<<"4"<<endl<<"1 5 7 8";
-    ofstream f4("fichier4.txt"); f4<<"CODE11 "<<endl<<"8"<<endl<<"2 3 4 0 3 0 0 2"<<endl<<"4"<<endl<<"1 5 7 8";
-    ofstream f5("fichier5.txt"); f5<<"CODE00 "<<endl<<"8"<<endl<<"2 3 4 0 3 0 0 2"<<endl<<"4"<<endl<<"1 5 7 8";
-    ofstream f6("fichier6.txt"); f6<<"CODE01 "<<endl<<"8"<<endl<<"2 3 4 0 3 0 0 2"<<endl<<"4"<<endl<<"1 5 7 8";
-    ofstream f7("fichier7.txt"); f7<<"CODE10 "<<endl<<"8"<<endl<<"2 3 4 0 3 0 0 2"<<endl<<"4"<<endl<<"1 5 7 8";
-    ofstream f8("fichier8.txt"); f8<<"CODE11 "<<endl<<"8"<<endl<<"2 3 4 0 3 0 0 2"<<endl<<"4"<<endl<<"1 5 7 8";
-    ofstream f9("fichier9.txt"); f9<<"CODE00 "<<endl<<"8"<<endl<<"2 3 4 0 3 0 0 2"<<endl<<"4"<<endl<<"1 5 7 8";
-    ofstream f10("fichier10.txt"); f10<<"CODE11 "<<endl<<"8"<<endl<<"2 3 4 0 3 0 0 2"<<endl<<"4"<<endl<<"1 5 7 8";
+void Widget::generateRandomFiles(){
 
-    vector<QString>strs;
-    for(int x=1;x<=10;x++){
-        QString str="fichier"+QString::number(x)+".txt";
-        str.push_back(str);
-        d_debugger->append(">>The file added is  at "+QString::number(x-1)+""+str);
-    }
+    ofstream f1("Matrice.txt");
+    f1<<"7 9 0 0 0 0 0 0 "<<endl;
+    f1<<"0 0 1 1 0 1 0 0 "<<endl;
+    f1<<"0 0 0 1 0 0 0 0 "<<endl;
+    f1<<"0 0 0 0 1 0 0 0 "<<endl;
+    f1<<"0 0 1 0 0 0 0 0 "<<endl;
+    f1<<"0 0 0 0 0 0 0 0 "<<endl;
+    f1<<"0 0 0 0 1 0 1 0 "<<endl;
 
-    return strs;
+    vector<string>strs;
+    d_fichiers.push_back("Matrice.txt");
+    d_fichiers.push_back("MatriceD.txt");
+    d_fichiers.push_back("FsAps.txt");
+    d_fichiers.push_back("FpAppD.txt");//pour ordonnancement
+
+
+
+    //return strs;
 }
 

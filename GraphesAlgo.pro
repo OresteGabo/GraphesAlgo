@@ -9,26 +9,20 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    addsommet.cpp \
     graphe.cpp \
     graphenonoriente.cpp \
     graphenonorientevalue.cpp \
     grapheoriente.cpp \
     grapheorientevalue.cpp \
-    kruskal.cpp \
     main.cpp \
-    mass.cpp \
     widget.cpp
 
 HEADERS += \
-    addsommet.h \
     graphe.h \
     graphenonoriente.h \
     graphenonorientevalue.h \
     grapheoriente.h \
     grapheorientevalue.h \
-    kruskal.h \
-    mass.h \
     widget.h
 
 # Default rules for deployment.

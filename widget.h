@@ -19,9 +19,19 @@
 #include<QHBoxLayout>
 #include<QVBoxLayout>
 #include<QString>
-#include"mass.h"
+#include<QInputDialog>
+#include<QDir>
 
-
+typedef struct {
+    int s; // première extrmité de l'arète ( 1er sommet de l'arète )
+    int t; // deuxième extrmité de l'arète ( 2éme sommet de l'arète )
+    double p; // poids de l'arète
+} arete;
+typedef struct {
+    int n; // nombre de sommets du graphe
+    int m; //nombre d'arètes du graphe ;
+    arete *a; // tableau des aretes du graphe
+} graphe;
 class Widget : public QWidget
 {
     Q_OBJECT
@@ -35,7 +45,10 @@ public:
     void chargerFichiers();
     bool fichierValide(const string&)const;
     void loadFile(const string& fileName);
-    vector<QString> generateRandomFiles();
+    void generateRandomFiles();
+    void saisie(graphe &g);//pour kruskal^
+
+    void saisie_fich(const string& nom, int** &a);//pour prufer
 
 private:
     vector<string>d_fichiers;
@@ -44,7 +57,7 @@ private:
     *d_removeConnection,*d_removeSommet,*d_go,*d_display,*d_fsAps,*d_matrice,*d_nbSuccesseur,*d_nbPredecesseur,*d_distance, *d_ddi,*d_dde;
     QComboBox *d_liste;
     QTextEdit* d_debugger;
-    string d_fichier;
+    string d_fichier;//current file
 
     void MAJBoutons();
     void MAJFichier();

@@ -1,5 +1,4 @@
 #include "graphe.h"
-//#include"sommet.h"
 Graphe::Graphe()
 {
     creerUnFichierMatrice();
@@ -162,30 +161,25 @@ int* Graphe::getApp()const{
     }
     return App;
 }
-int* Graphe::getFp()const
-{
-    int *Fp;
+int* Graphe::getFp()const{
+    int *fp;
     int taillFs=d_fs[0];
-        Fp=new int[taillFs+1];
-        Fp[0]=taillFs;
-        int indexFp,indexFs;
-       for(int i=1;i<=d_aps[0];i++)
-        {
-            indexFs=d_aps[i];
-            while(d_fs[indexFs]!=0)
-            {
-                indexFp=getApp()[d_fs[indexFs]];
-              Fp[indexFp]=i;
-              getApp()[d_fs[indexFs]]+=1;
-              indexFs++;
-            }
-
+    fp=new int[taillFs+1];
+    fp[0]=taillFs;
+    int indexFp,indexFs;
+    for(int i=1;i<=d_aps[0];i++){
+        indexFs=d_aps[i];
+        while(d_fs[indexFs]!=0){
+            indexFp=getApp()[d_fs[indexFs]];
+            fp[indexFp]=i;
+            getApp()[d_fs[indexFs]]+=1;
+            indexFs++;
         }
-        for(int i=1;i<=d_aps[0];i++)
-        {
-        Fp[getApp()[i]]=0;
-        }
-        return Fp;
+    }
+    for(int i=1;i<=d_aps[0];i++){
+        fp[getApp()[i]]=0;
+    }
+    return fp;
 }
 int* Graphe::distance(int sommet)const{
     int *tab;
@@ -208,14 +202,12 @@ int* Graphe::distance(int sommet)const{
                     tab[d_fs[indexFs]]=distance;
                     fin++;
                     file[fin]=d_fs[indexFs];
-                   //cout<<' '<<fin<<'='<<file[fin];
                 }
                 indexFs++;
             }
         }
         courant=debut;
         debut=fin;
-
         distance++;
     }
     return tab;
@@ -337,7 +329,7 @@ int* Graphe::rangProfrondeur(QTextEdit* d)const{
     }
     return resultat;
 }
-int* Graphe::det_rang( int *&num){
+int* Graphe::det_rang(int *&num){
     int *rrang;
     int n = d_aps[0];
     num = new int[n+1];
@@ -400,15 +392,13 @@ void Graphe::afficheFsAps(QTextEdit* debugger)const{
     for(int i=0;i<=d_fs[0];i++){
         fs+=" ";
         fs+=QString::number(d_fs[i]);
-        //debugger->append( " "+QString::number(d_fs[i]));
     }
     for(int i=0;i<=d_aps[0];i++){
         aps+=" ";
         aps+=QString::number(d_aps[i]);
-
     }
     debugger->append("FS: "+fs);
-    debugger->append("FS: "+aps);
+    debugger->append("APS: "+aps);
 
 }
 void Graphe::afficheTab(int*tab)const{
@@ -531,6 +521,45 @@ void Graphe::afficheMatrice(int** m)const{
             cout<<' '<<m[i][j];
         }cout<<endl;
     }cout<<endl;
+}
+bool Graphe::djikstra (int s, int *&d, int *&pred)
+{
+    /*int n = d_aps[0];
+    int j,l,x;
+    d = new int[n+1];
+    pred = new int[n+1];
+    d[0] = n;
+    pred[0] = n;
+    bool *ins = new bool [n+1];
+    for (int i = 1; i <= n; i++)
+    {
+        ins[i] = true;
+        d[i] = c[s][i];
+        pred[i] = s;
+    }
+    d[s]=INT_MAX;
+    while (n--<0)
+    {
+        j = dmin(ins,d); // fct dmin à implémenter
+        if(d[j] == INT_MAX || j == -1 || j == s)
+                return false;
+        ins[j] = false;
+        for(int k = d_aps[j]; (l=d_fs[k]) > 0; k++)
+        {
+            if(l != s && ins[l] == true && c[j][l] != INT_MAX)
+            {
+                x = d[j] + c[j][i];
+                if(x < d[l])
+                {
+                    d[l] = x;
+                    pred[l] = j;
+                }
+            }
+        }
+    }
+    d[s] = 0;
+    pred[s] = s;*/
+    return true;
 }
 /*
 void Graphe::createFile(const string& fileName)const{
