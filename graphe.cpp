@@ -523,8 +523,8 @@ void Graphe::afficheMatrice(int** m)const{
     }cout<<endl;
 }
 bool Graphe::djikstra (int s, int *&d, int *&pred)
-{
-    /*int n = d_aps[0];
+{/*
+    int n = d_aps[0];
     int j,l,x;
     d = new int[n+1];
     pred = new int[n+1];
